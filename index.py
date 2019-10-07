@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-
+import sys
 GPIO.setmode(GPIO.BOARD)
 control_pins = [7, 11, 13, 15]
 for pin in control_pins:
@@ -31,7 +31,7 @@ def forward(delay, step):
 
 
 
-forward(0.001, 512)
+forward(0.001, sys.argv[1])
 
 
 
