@@ -29,9 +29,26 @@ def forward(delay, step):
             setStep(step)
             time.sleep(delay)
 
+def backward(delay, step):
+    for i in range(0, step):
+        halfstep_seq = [
+            [1,0,0,1],
+            [0,0,0,1],
+            [0,0,1,1],
+            [0,0,1,0],
+            [0,1,1,0],
+            [0,1,0,0],
+            [1,1,0,0],
+            [1,0,0,0],
+        ]
+        for step in halfstep_seq:
+            setStep(step)
+            time.sleep(delay)
 
 
 forward(0.001, int(sys.argv[1]))
+backward(0.001, int(sys.argv[1]))
+
 
 
 
