@@ -31,7 +31,7 @@ def forward(delay, step):
 
 
 
-forward(0.001, sys.argv[2])
+forward(0.001, int(sys.argv[1]))
 
 
 
