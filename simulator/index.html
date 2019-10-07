@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    #container{
+        width: 100%;
+        display: flex;
+    }
+
+    #info{
+    }
+    #my-canvas{
+        width: 500px;
+        height: 500px;
+    }
+</style>
+<div id="container">
+    <div id="animator">
+        <canvas id="my-canvas" width="500" height="500"></canvas>
+    </div>
+    <div id="info">
+        <div id="active-r">
+            <div>r:</div>
+            <div id="active-r-info"></div>
+        </div>
+        <div id="active-angler">
+            <div id="active-angler-main">
+                <div>main-angle :</div>
+                <div id="main-angle-info"></div>
+            </div>
+            <div id="active-angler-sec">
+                <div>second-angle :</div>
+                <div id="sec-angle-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        main_frame();
+        function main_frame(angle1=0,angle2=0) {
+            let canvas = document.getElementById("my-canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#bddda9";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(canvas.width/2, 20, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.stroke();
+            draw_main_arm(angle1,angle2);
+        }
+        function draw_main_arm(angle1=0,angle2=0){
+            let canvas = document.getElementById("my-canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2,20);
+            let length = 100;
+            let radyan = angle1/180*Math.PI;
+            let x = (canvas.width/2) - (length*Math.cos(radyan));
+            let y = (20 + length*Math.sin(radyan));
+            ctx.lineTo(x,y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.stroke();
+            draw_sec_arm(angle2,x,y);
+        }
+        function draw_sec_arm(angle2=0,x,y){
+            let canvas = document.getElementById("my-canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            let length = 100;
+            let radyan = angle2/180*Math.PI;
+            let x1 = x - (length*Math.cos(radyan));
+            let y1 = (y + length*Math.sin(radyan));
+            ctx.lineTo(x1,y1);
+            ctx.stroke();
+        }
+        let angle1 = 0;
+        let angle2 = 0;
+        let change = 5;
+        document.addEventListener('keypress',function (e) {
+            if(e.key === 'd'){
+                if(angle1 >= 180){
+                    angle1 = 180
+
+                }else{
+                    angle1+=change;
+                    angle2+=change;
+
+                }
+                main_frame(angle1,angle2);
+            }
+            if(e.key === 'a'){
+                if(angle1 <= 0){
+                    angle1 = 0
+                }else{
+                    angle1-=change;
+                    angle2-=change;
+
+                }
+                main_frame(angle1,angle2);
+            }
+            if(e.key === 'l'){
+                if(angle2 >= angle1){
+                    angle2 = angle1
+                }else{
+                    angle2+=change;
+                }
+                main_frame(angle1,angle2);
+            }
+            if(e.key === 'j'){
+                if(angle2 <= angle1){
+                    angle2 = 350 - angle1
+                }else{
+                    angle2-=change;
+                }
+                main_frame(angle1,angle2);
+            }
+            update_info();
+        });
+        function update_info() {
+            document.querySelector('#main-angle-info').innerHTML = angle1;
+            document.querySelector('#sec-angle-info').innerHTML = angle2;
+        }
+
+    </script>
+</div>
+</body>
+</html>
