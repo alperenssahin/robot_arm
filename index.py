@@ -25,6 +25,7 @@ def forward(delay, step):
         time.sleep(delay)
 
 
+forward(0.001, 1)
 
 
 GPIO.cleanup()
