@@ -15,17 +15,24 @@ def setStep(steps, control_pins=control_pins):
 
 def forward(delay, step):
     for i in range(0, step):
-        setStep([1, 0, 1, 0])
-        time.sleep(delay)
-        setStep([0, 1, 1, 0])
-        time.sleep(delay)
-        setStep([0, 1, 0, 1])
-        time.sleep(delay)
-        setStep([1, 0, 0, 1])
-        time.sleep(delay)
+        halfstep_seq = [
+            [1,0,0,0],
+            [1,1,0,0],
+            [0,1,0,0],
+            [0,1,1,0],
+            [0,0,1,0],
+            [0,0,1,1],
+            [0,0,0,1],
+            [1,0,0,1]
+        ]
+        for step in halfstep_seq:
+            setStep(step)
+            time.sleep(delay)
 
 
-forward(0.001, 1)
+
+forward(0.001, 512)
+
 
 
 GPIO.cleanup()
